@@ -9,11 +9,12 @@ set termencoding=utf-8
 set t_Co=256
 set mouse=n
 set diffopt=iwhite,vertical
+colorscheme desert
 
 "折叠
-set foldmarker=#if,#endif
-set foldmethod=marker
+set foldmethod=syntax
 set foldlevel=9999
+set foldcolumn=5
 
 filetype plugin on
 syntax on
@@ -54,20 +55,6 @@ if has("cscope")
   set csverb
 endif
 
-function DiffCVS()
-  let filename = expand('%')
-  let tempname = tempname()
-  execute "!cvs update -p " . filename . " > " . tempname
-  execute "vertical diffsplit " . tempname
-endfunction
-
-function DiffSVN()
-  let filename = expand('%')
-  let tempname = tempname()
-  execute "!svn cat " . filename . " > " . tempname
-  execute "vertical diffsplit " . tempname
-endfunction
-
 function Run()
   let fileName = expand('%')
   if fileName =~ '\.py$'
@@ -76,24 +63,6 @@ function Run()
     if getline(1) =~ '^#!'
       execute '!./' . expand('%')
     endif
-  endif
-endfunction
-
-function Build()
-  let keyword = '/ff3/mozilla/'
-  let keyword2 = '/ff3/mozobj/'
-  let filePath = expand('%:p')
-  let p1 = stridx(filePath, keyword)
-  if p1 > 0
-    let path = strpart(filePath, 0, p1) . keyword2
-    let p1 = p1 + strlen(keyword)
-    let p2 = stridx(filePath, '/', p1)
-    if p2 > 0
-      let path = path . strpart(filePath, p1, p2 - p1)
-      execute '!cd ' . path . '; pwd; color-make'
-    endif
-  else
-    execute '!color-make'
   endif
 endfunction
 
@@ -115,6 +84,6 @@ map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
 command Dot call Dot()
 
-au FileType cpp setlocal dict+=~/.vim/dict/cpp.txt
-au FileType h setlocal dict+=~/.vim/dict/h.txt
+au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
+au FileType h,c,cpp syn region zhouzmFoldIf start="^\s*#if" end="^\s*#endif" fold transparent extend
 
