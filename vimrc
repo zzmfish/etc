@@ -77,13 +77,20 @@ function Dot()
 endfunction
 
 map <F3> :call FindFile()<CR> 
-map <F4> :call Build()<CR>
 map <F5> :call Run()<CR>
-map <F6> :call SVNDiff()<CR>
 map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
 command Dot call Dot()
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
-au FileType h,c,cpp syn region zhouzmFoldIf start="^\s*#if" end="^\s*#endif" fold transparent extend
+
+au FileType h,c,cpp syn region IfFoldContainer
+    \ start="^\s*#\s*if\(n\?def\)\?\>"
+    \ end="#\s*endif\>"
+    \ transparent
+    \ keepend extend
+    \ containedin=NONE
+    \ contains=ZhouzmFoldIf
+
+au FileType h,c,cpp syn region ZhouzmFoldIf start="^\s*#if" end="^\s*#endif" contained contains=TOP fold transparent
 
