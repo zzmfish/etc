@@ -82,3 +82,38 @@ function svncommit()
     done
     echo $files
 }
+
+function add_app_desktop()
+{
+    #名称
+    name=`zenity --title="输入名称" --entry`
+    if [ -z "$name" ]; then
+        echo "ERROR: name is empty"
+        return
+    fi
+    echo "名称：$name"
+
+    #文件
+    exec=`zenity --title="选择程序" --file-selection`
+    if [ -z "$exec" ]; then
+        echo "ERROR: file is empty"
+        return
+    fi
+    echo "程序：$exec"
+
+    #图标
+    icon=`zenity --title="选择图标" --file-selection --file-filter="*.png *.gif *.jpg *.svg" --file-filter="*.*"`
+    echo "图标：$icon"
+
+    #创建desktop文件 
+    tmp=`mktemp`
+    echo "[Desktop Entry]" > $tmp
+    echo "Name=$name" >> $tmp
+    echo "Exec=$file" >> $tmp
+    echo "Icon=$icon" >> $tmp
+    echo "Terminal=false" >> $tmp
+    echo "Type=Application" >> $tmp
+    echo "StartupNotify=true" >> $tmp
+    cat $tmp
+    cp -iv $tmp $HOME/.local/share/applications/$name.desktop
+}
