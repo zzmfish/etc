@@ -87,6 +87,7 @@ command -nargs=1 Grep :!grep --binary-files=without-match --color=always
     \ --exclude-dir='.svn' --exclude-dir='.git'
     \ --exclude='cscope.files' --exclude='cscope.out' --exclude='tags'
     \ <args> * -r
+command -nargs=1 GrepWord :Grep "\b<args>\b"
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
 
