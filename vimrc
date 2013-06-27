@@ -55,7 +55,7 @@ if has("cscope")
   set csverb
 endif
 
-function Run()
+function! Run()
   let fileName = expand('%')
   if fileName =~ '\.py$'
     execute '!python ' . fileName
@@ -66,7 +66,7 @@ function Run()
   endif
 endfunction
 
-function Dot()
+function! Dot()
   let filename = expand('%')
   if strlen(filename) > 4 && strpart(filename, strlen(filename) - 4) == '.dot'
     let pngfile = strpart(filename, 0, strlen(filename) - 4) . '.png'
@@ -80,16 +80,16 @@ map <F3> :call FindFile()<CR>
 map <F5> :call Run()<CR>
 map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
-command Dot call Dot()
+command! Dot call Dot()
 
 "grep
-command -nargs=1 Grep :!grep --binary-files=without-match --color=always -n
+command! -nargs=1 Grep :!grep --binary-files=without-match --color=always -n
     \ --exclude-dir='.svn' --exclude-dir='.git'
     \ --exclude='cscope.files' --exclude='cscope.out' --exclude='tags' --exclude='*.log'
     \ <args> * -r
-command -nargs=1 GrepWord :Grep "\b<args>\b"
-command -nargs=1 GrepClass :Grep "\bclass <args>\s*[:{\n]"
-command -nargs=1 GrepFunction :Grep "^[^\(]\+<args>\(.*\)\s\+[{\n]"
+command! -nargs=1 GrepWord :Grep "\b<args>\b"
+command! -nargs=1 GrepClass :Grep "\bclass <args>\s*[:{\n]"
+command! -nargs=1 GrepFunction :Grep "^[^\(]\+<args>\(.*\)\s\+[{\n]"
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
 
