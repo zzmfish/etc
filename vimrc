@@ -14,7 +14,7 @@ colorscheme desert
 "折叠
 set foldmethod=syntax
 set foldlevel=9999
-set foldcolumn=5
+set foldcolumn=0
 
 filetype plugin on
 syntax on
@@ -81,6 +81,12 @@ map <F5> :call Run()<CR>
 map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
 command Dot call Dot()
+
+"grep
+command -nargs=1 Grep :!grep --binary-files=without-match --color=always
+    \ --exclude-dir='.svn' --exclude-dir='.git'
+    \ --exclude='cscope.files' --exclude='cscope.out' --exclude='tags'
+    \ <args> * -r
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
 
