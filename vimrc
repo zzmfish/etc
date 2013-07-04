@@ -89,7 +89,7 @@ command! -nargs=1 Grep :!grep --binary-files=without-match --color=always -n
     \ <args> * -r
 command! -nargs=1 GrepWord :Grep "\b<args>\b"
 command! -nargs=1 GrepClass :Grep "\bclass <args>\s*[:{\n]"
-command! -nargs=1 GrepFunction :Grep "^[^\(]\+<args>\(.*\)\s\+[{\n]"
+command! -nargs=1 GrepFunction :Grep "^[^\(]\+[: ]<args>\(.*\)\s\+[{\n]"
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
 
