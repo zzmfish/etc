@@ -80,6 +80,7 @@ map <F3> :call FindFile()<CR>
 map <F5> :call Run()<CR>
 map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
+map <C-G> :call GrepMenu()<CR>
 command! Dot call Dot()
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
