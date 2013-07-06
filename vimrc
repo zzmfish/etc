@@ -87,6 +87,7 @@ map <C-G>t :call GrepText(expand("<cword>"))<CR>
 map <C-G>w :call GrepWord(expand("<cword>"))<CR>
 map <C-G>f :call GrepFunction(expand("<cword>"))<CR>
 map <C-G>c :call GrepClass(expand("<cword>"))<CR>
+map <C-G>b :call GrepBack()<CR>
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
 
