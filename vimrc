@@ -80,8 +80,13 @@ map <F3> :call FindFile()<CR>
 map <F5> :call Run()<CR>
 map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
-map <C-G> :call GrepMenu()<CR>
 command! Dot call Dot()
+
+map <C-G> :call GrepMenu()<CR>
+map <C-G>t :call GrepText(expand("<cword>"))<CR>
+map <C-G>w :call GrepWord(expand("<cword>"))<CR>
+map <C-G>f :call GrepFunction(expand("<cword>"))<CR>
+map <C-G>c :call GrepClass(expand("<cword>"))<CR>
 
 au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
 
