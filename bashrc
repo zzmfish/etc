@@ -115,7 +115,10 @@ function add_app_desktop()
     echo "Type=Application" >> $tmp
     echo "StartupNotify=true" >> $tmp
     cat $tmp
-    cp -iv $tmp "$HOME/.local/share/applications/$name.desktop"
+    chmod u+x $tmp
+    destdir="$HOME/.local/share/applications"
+    cp -iv $tmp "$destdir/$name.desktop"
+    nautilus $destdir
 }
 
 function tether_android()
@@ -124,8 +127,8 @@ function tether_android()
     IP=`ip -o -f inet addr | grep eth0 | grep "inet" | grep -Po "\b\d+\.\d+\.\d+\.\d+\b" | head -n 1`
     echo "IP=$IP"
     sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
-    sudo iptables -t nat -A POSTROUTING -s 192.168.42.1/24 -j SNAT --to-source $IP
     sudo ifconfig usb0 192.168.42.1 netmask 255.255.255.0 up
+    sudo iptables -t nat -A POSTROUTING -s 192.168.42.1/24 -j SNAT --to-source $IP
 
     #设置手机
     adb shell su -c "/data/busybox route add default gw 192.168.42.1"
