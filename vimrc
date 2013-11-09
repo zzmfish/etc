@@ -11,11 +11,6 @@ set mouse=n
 set diffopt=iwhite,vertical
 colorscheme desert
 
-"折叠
-set foldmethod=syntax
-set foldlevel=9999
-set foldcolumn=0
-
 filetype plugin on
 syntax on
 
@@ -89,15 +84,27 @@ map <C-G>f :call GrepFunction(expand("<cword>"))<CR>
 map <C-G>c :call GrepClass(expand("<cword>"))<CR>
 map <C-G>b :call GrepBack()<CR>
 
-au FileType h,c,cpp setlocal dict+=~/.vim/dict/cpp.txt
-
-au FileType h,c,cpp syn region IfFoldContainer
+"C++
+function SetCppOptions()
+  setlocal dict+=~/.vim/dict/cpp.txt
+  syn region IfFoldContainer
     \ start="^\s*#\s*if\(n\?def\)\?\>"
     \ end="#\s*endif\>"
     \ transparent
     \ keepend extend
     \ containedin=NONE
     \ contains=ZhouzmFoldIf
+  syn region ZhouzmFoldIf start="^\s*#if" end="^\s*#endif" contained contains=TOP fold transparent
+  set foldmethod=syntax
+  "set foldlevel=9999
+  "set foldcolumn=0
+endfunction
+au FileType h,c,cpp call SetCppOptions()
 
-au FileType h,c,cpp syn region ZhouzmFoldIf start="^\s*#if" end="^\s*#endif" contained contains=TOP fold transparent
-
+"Python
+function SetPythonOptions()
+  set foldmethod=indent
+  set foldnestmax=2
+  set shiftwidth=2
+endfunction
+au FileType python call SetPythonOptions()
