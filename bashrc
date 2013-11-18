@@ -134,3 +134,13 @@ function tether_android()
     adb shell su -c "/data/busybox route add default gw 192.168.42.1"
     adb shell su -c "setprop net.dns1 8.8.8.8"
 }
+
+function hex2dec()
+{
+    echo "obase=10; ibase=16; $1" | bc
+}
+
+function dec2hex()
+{
+    echo "obase=16; ibase=10; $1" | bc
+}
