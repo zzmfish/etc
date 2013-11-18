@@ -9,6 +9,8 @@ set termencoding=utf-8
 set t_Co=256
 set mouse=n
 set diffopt=iwhite,vertical
+set ruler
+set foldcolumn=2
 colorscheme desert
 
 filetype plugin on
