@@ -10,7 +10,6 @@ set t_Co=256
 set mouse=n
 set diffopt=iwhite,vertical
 set ruler
-set foldcolumn=2
 colorscheme desert
 
 filetype plugin on
@@ -33,10 +32,6 @@ nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
-"netrw
-let g:netrw_winsize=30
-let g:netrw_browse_split=3
-
 if has("cscope")
   set csprg=/usr/bin/cscope
   set csto=0
@@ -52,7 +47,7 @@ if has("cscope")
   set csverb
 endif
 
-function! Run()
+function Run()
   let fileName = expand('%')
   if fileName =~ '\.py$'
     execute '!python ' . fileName
@@ -63,7 +58,7 @@ function! Run()
   endif
 endfunction
 
-function! Dot()
+function Dot()
   let filename = expand('%')
   if strlen(filename) > 4 && strpart(filename, strlen(filename) - 4) == '.dot'
     let pngfile = strpart(filename, 0, strlen(filename) - 4) . '.png'
@@ -73,11 +68,14 @@ function! Dot()
   endif
 endfunction
 
+
+"""""""""""""""""""""""""""""""""""""""
+"               快捷键                "
+"""""""""""""""""""""""""""""""""""""""
 map <F3> :call FindFile()<CR> 
 map <F5> :call Run()<CR>
 map <C-H> :tabprevious<CR>
 map <C-L> :tabnext<CR>
-command! Dot call Dot()
 
 map <C-G> :call GrepMenu()<CR>
 map <C-G>t :call GrepText(expand("<cword>"))<CR>
@@ -86,6 +84,10 @@ map <C-G>f :call GrepFunction(expand("<cword>"))<CR>
 map <C-G>c :call GrepClass(expand("<cword>"))<CR>
 map <C-G>b :call GrepBack()<CR>
 
+
+"""""""""""""""""""""""""""""""""""""""
+"                 折叠                "
+"""""""""""""""""""""""""""""""""""""""
 "C++
 function SetCppOptions()
   setlocal dict+=~/.vim/dict/cpp.txt
@@ -98,15 +100,18 @@ function SetCppOptions()
     \ contains=ZhouzmFoldIf
   syn region ZhouzmFoldIf start="^\s*#if" end="^\s*#endif" contained contains=TOP fold transparent
   set foldmethod=syntax
-  "set foldlevel=9999
-  "set foldcolumn=0
 endfunction
 au FileType h,c,cpp call SetCppOptions()
 
 "Python
 function SetPythonOptions()
   set foldmethod=indent
-  set foldnestmax=2
   set shiftwidth=2
 endfunction
 au FileType python call SetPythonOptions()
+
+"一般选项
+set foldcolumn=2
+set foldlevel=1
+set foldminlines=5
+set foldnestmax=2
