@@ -3,8 +3,9 @@
 alias grepcode="grep --binary-files=without-match --exclude-dir='.svn' --exclude-dir='.git' --exclude='cscope.files' --exclude='cscope.out' --exclude='tags'"
 alias share_folder="python -m SimpleHTTPServer"
 alias fanqiang="ssh -p 59 -TN -D 7070 zzmfish@vpn.ofan.me"
+alias mount_secret="sudo mount -t ecryptfs -o ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_enable_filename_crypto=y,ecryptfs_passthrough=n"
 
-function indexcode()
+function cscope_index()
 {
   find -name "*.mk" -o -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.s" -o -name "*.S" -o -name "*.java" > cscope.files
   cscope -bkq
@@ -132,6 +133,7 @@ function tether_android()
 
     #设置手机
     adb shell su -c "/data/busybox route add default gw 192.168.42.1"
+    adb shell su -c "busybox route add default gw 192.168.42.1"
     adb shell su -c "setprop net.dns1 8.8.8.8"
 }
 
