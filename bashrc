@@ -4,6 +4,8 @@ alias grepcode="grep --binary-files=without-match --exclude-dir='.svn' --exclude
 alias share_folder="python -m SimpleHTTPServer"
 alias fanqiang="ssh -p 59 -TN -D 7070 zzmfish@vpn.ofan.me"
 alias mount_secret="sudo mount -t ecryptfs -o ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_enable_filename_crypto=y,ecryptfs_passthrough=n"
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 
 function cscope_index()
 {
