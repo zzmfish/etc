@@ -8,6 +8,7 @@ set fileencoding=utf-8
 set termencoding=utf-8
 set t_Co=256
 set mouse=n
+set ttymouse=xterm2
 set diffopt=iwhite,vertical
 set ruler
 colorscheme desert
@@ -111,7 +112,11 @@ endfunction
 au FileType python call SetPythonOptions()
 
 "一般选项
-set foldcolumn=2
+set foldcolumn=3
 set foldlevel=1
 set foldminlines=5
 set foldnestmax=2
+
+"状态栏
+set laststatus=2
+set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
