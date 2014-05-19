@@ -148,3 +148,16 @@ function dec2hex()
 {
     echo "obase=16; ibase=10; $1" | bc
 }
+
+function check_port()
+{
+    port=$1
+    if [ -z "$port" ]; then
+        return 1
+    fi
+    if [ `netstat -anp 2>/dev/null | grep ":$port\b" | wc -l` == 0 ]; then
+        return 1
+    else
+        return 0
+    fi
+}
