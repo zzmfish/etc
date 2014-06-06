@@ -161,3 +161,10 @@ function check_port()
         return 0
     fi
 }
+
+function csindex()
+{
+    find -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp" > cscope.files
+    cscope -bkq
+    ctags -R
+}
