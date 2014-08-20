@@ -168,3 +168,37 @@ function csindex()
     cscope -bkq
     ctags -R
 }
+
+function ssh_list()
+{
+    #显示ssh列表
+    f="$HOME/.ssh_list"
+    if [ -e "$f" ]; then
+        id=1
+        cat .ssh_list | (
+            while true; do
+                read hostName hostIp hostPort userName
+                if [ -z "$hostName" ]; then
+                    break
+                fi
+                printf "%s) %-10s [%-10s@%s:%s]\n" "$id" "$hostName" "$userName" "$hostIp" "$hostPort"
+                id=$(($id+1))
+            done
+        )
+    fi
+
+    #输入选择
+    read -p "Select: " select
+
+    #登录选择的ssh
+    tmp=`mktemp`
+    cat .ssh_list | sed "${select}q;d" >> $tmp
+    read hostName hostIp hostPort userName <$tmp
+    if [ -n "$hostName" ]; then
+        echo "Connecting to $hostName ..."
+        ssh -p $hostPort $userName@$hostIp
+    else
+        echo "Error: invalid selection!"
+        
+    fi
+}
