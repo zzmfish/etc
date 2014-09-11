@@ -104,6 +104,13 @@ function SetCppOptions()
 endfunction
 au FileType h,c,cpp call SetCppOptions()
 
+"js
+function SetJsFolding()
+    set foldmarker={,}
+    set foldmethod=marker
+    set foldlevel=0
+endfunction
+
 "Python
 function SetPythonOptions()
   set foldmethod=indent
@@ -116,6 +123,8 @@ set foldcolumn=3
 set foldlevel=1
 set foldminlines=5
 set foldnestmax=2
+"针对各种语言配置
+au FileType js,html call SetJsFolding()
 
 "状态栏
 set laststatus=2

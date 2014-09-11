@@ -7,6 +7,8 @@ alias mount_secret="sudo mount -t ecryptfs -o ecryptfs_cipher=aes,ecryptfs_key_b
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 
+export EDITOR=vim
+
 function cscope_index()
 {
   find -name "*.mk" -o -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.s" -o -name "*.S" -o -name "*.java" > cscope.files
