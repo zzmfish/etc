@@ -173,6 +173,14 @@ function csindex()
 
 function ssh_list()
 {
+    #参数处理
+    action="ssh"
+    for arg in $@; do
+        if [ "$arg" == "-m" ]; then
+            action="sshfs"
+        fi
+    done
+
     #显示ssh列表
     f="$HOME/.ssh_list"
     if [ -e "$f" ]; then
@@ -197,10 +205,19 @@ function ssh_list()
     cat .ssh_list | sed "${select}q;d" >> $tmp
     read hostName hostIp hostPort userName <$tmp
     if [ -n "$hostName" ]; then
-        echo "Connecting to $hostName ..."
-        ssh -p $hostPort $userName@$hostIp
+        case $action in
+        ssh)
+            cmd="ssh -p $hostPort $userName@$hostIp"
+            ;;
+        sshfs)
+            mkdir -p $HOME/mount/$hostName
+            cmd="sshfs -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
+            ;;
+        esac
+
+        echo $cmd
+        $cmd
     else
         echo "Error: invalid selection!"
-        
     fi
 }
