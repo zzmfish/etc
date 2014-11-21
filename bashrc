@@ -185,7 +185,7 @@ function ssh_list()
     f="$HOME/.ssh_list"
     if [ -e "$f" ]; then
         id=1
-        cat .ssh_list | (
+        cat $f | (
             while true; do
                 read hostName hostIp hostPort userName
                 if [ -z "$hostName" ]; then
@@ -220,4 +220,28 @@ function ssh_list()
     else
         echo "Error: invalid selection!"
     fi
+}
+
+#显示目录深度
+function dirdepth()
+{
+    dir_name=$1
+    if [ -z "$dir_name" ]; then
+        #目标目录为空
+        return
+    fi
+    dst_dir=`echo $PWD | grep -o "^.*\/$dir_name\b"`
+    if [ -z "$dst_dir" ]; then
+        #找不到目标目录
+        return
+    fi
+    cur_depth=`echo $PWD | tr -dc "/" | wc -c`
+    dst_depth=`echo $dst_dir | tr -dc "/" | wc -c`
+    depth=$(($cur_depth-$dst_depth))
+
+    result=""
+    for i in `seq $depth`; do
+        result="../$result"
+    done
+    echo $result
 }
