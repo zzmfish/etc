@@ -185,24 +185,28 @@ function ssh_list()
     f="$HOME/.ssh_list"
     if [ -e "$f" ]; then
         id=1
+        printf "+---------------------------------------------------------------+\n"
+        printf "| %-2s | %-13s | %-20s | %-4s | %-10s |\n" "Id" "HostName" "Address" "Port" "User"
+        printf "+---------------------------------------------------------------+\n"
         cat $f | (
             while true; do
                 read hostName hostIp hostPort userName
                 if [ -z "$hostName" ]; then
                     break
                 fi
-                printf "%s) %-10s [%-10s@%s:%s]\n" "$id" "$hostName" "$userName" "$hostIp" "$hostPort"
+                printf "| %-2s | %-13s | %-20s | %-4s | %-10s |\n" "$id" "$hostName" "$hostIp" "$hostPort" "$userName"
                 id=$(($id+1))
             done
         )
+        printf "+---------------------------------------------------------------+\n"
     fi
 
     #输入选择
-    read -p "Select: " select
+    read -p "Id: " select
 
     #登录选择的ssh
     tmp=`mktemp`
-    cat .ssh_list | sed "${select}q;d" >> $tmp
+    cat $f | sed "${select}q;d" >> $tmp
     read hostName hostIp hostPort userName <$tmp
     if [ -n "$hostName" ]; then
         case $action in
