@@ -215,7 +215,7 @@ function ssh_list()
             ;;
         sshfs)
             mkdir -p $HOME/mount/$hostName
-            cmd="sshfs -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
+            cmd="sshfs -o nonempty -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
             ;;
         esac
 
