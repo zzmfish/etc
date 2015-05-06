@@ -211,11 +211,11 @@ function ssh_list()
     if [ -n "$hostName" ]; then
         case $action in
         ssh)
-            cmd="ssh -p $hostPort $userName@$hostIp"
+            cmd="ssh -o ServerAliveInterval=60 -p $hostPort $userName@$hostIp"
             ;;
         sshfs)
             mkdir -p $HOME/mount/$hostName
-            cmd="sshfs -o nonempty -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
+            cmd="sshfs -o ServerAliveInterval=60 -o nonempty -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
             ;;
         esac
 
