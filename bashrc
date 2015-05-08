@@ -215,7 +215,7 @@ function ssh_list()
             ;;
         sshfs)
             mkdir -p $HOME/mount/$hostName
-            cmd="sshfs -o ServerAliveInterval=60 -o nonempty -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
+            cmd="sshfs -o ServerAliveInterval=60 -o nonempty -o reconnect -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
             ;;
         esac
 
