@@ -6,12 +6,13 @@ alias fanqiang="ssh -p 59 -TN -D 7070 zzmfish@vpn.ofan.me"
 alias mount_secret="sudo mount -t ecryptfs -o ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_enable_filename_crypto=y,ecryptfs_passthrough=n"
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias grep_py_class='grep "^\s*class\s\+\w\+" * -r --include="*.py"'
 
 export EDITOR=vim
 
 function cscope_index()
 {
-  find -name "*.mk" -o -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.s" -o -name "*.S" -o -name "*.java" > cscope.files
+  find . -name "*.mk" -or -name "*.h" -or -name "*.c" -or -name "*.cc" -or -name "*.cpp" -or -name "*.s" -or -name "*.S" -or -name "*.java" > cscope.files
   cscope -bkq
   ctags -R
 }
@@ -171,53 +172,3 @@ function csindex()
     ctags -R
 }
 
-function ssh_list()
-{
-    #参数处理
-    action="ssh"
-    for arg in $@; do
-        if [ "$arg" == "-m" ]; then
-            action="sshfs"
-        fi
-    done
-
-    #显示ssh列表
-    f="$HOME/.ssh_list"
-    if [ -e "$f" ]; then
-        id=1
-        cat .ssh_list | (
-            while true; do
-                read hostName hostIp hostPort userName
-                if [ -z "$hostName" ]; then
-                    break
-                fi
-                printf "%s) %-10s [%-10s@%s:%s]\n" "$id" "$hostName" "$userName" "$hostIp" "$hostPort"
-                id=$(($id+1))
-            done
-        )
-    fi
-
-    #输入选择
-    read -p "Select: " select
-
-    #登录选择的ssh
-    tmp=`mktemp`
-    cat .ssh_list | sed "${select}q;d" >> $tmp
-    read hostName hostIp hostPort userName <$tmp
-    if [ -n "$hostName" ]; then
-        case $action in
-        ssh)
-            cmd="ssh -p $hostPort $userName@$hostIp"
-            ;;
-        sshfs)
-            mkdir -p $HOME/mount/$hostName
-            cmd="sshfs -p $hostPort $userName@$hostIp: $HOME/mount/$hostName"
-            ;;
-        esac
-
-        echo $cmd
-        $cmd
-    else
-        echo "Error: invalid selection!"
-    fi
-}
